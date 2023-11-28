@@ -2,26 +2,21 @@
 
 // programa de supervivencia I LAND
 
-let vocalJimin = 100;
-let vocalRose = 100;
+let vocalJimin = 150;
+let vocalRose = 150;
+
+let elegirGanador = prompt("Elegi entre Jimin y Rose quien crees que gane");
 
 let land = 0;
 
-const MIN_POWER = 10;
-const MAX_POWER = 30;
+const MIN_CANTO = 10;
+const MAX_CANTO = 30;
 
 while (vocalJimin > 0 && vocalRose > 0) {
     land += 1;
-    let notaJimin = Math.ceil(
-        Math.random() * (MAX_POWER - MIN_POWER) + MIN_POWER
-    );
-    let notaRose = Math.ceil(
-        Math.random() * (MAX_POWER - MIN_POWER) + MIN_POWER
-    );
-
-    console.log(
-        "--land " + land + "--"
-    );
+    let notaJimin = Math.ceil(Math.random() * (MAX_CANTO - MIN_CANTO) + MIN_CANTO);
+    let notaRose = Math.ceil(Math.random() * (MAX_CANTO - MIN_CANTO) + MIN_CANTO);
+    console.log("--land " + land + "--");
     if (notaJimin === notaRose) {
         console.log("siga");
     } else if (notaJimin > notaRose) {
@@ -41,10 +36,9 @@ while (vocalJimin > 0 && vocalRose > 0) {
     }
 }
 
-console.log("GANADOR");
-
 if (vocalRose > 0) {
     console.log("Gano el DESAENG Rose");
 } else {
     console.log("Gano el DESAENG Jimin");
 }
+
