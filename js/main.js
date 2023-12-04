@@ -5,7 +5,24 @@
 let vocalJimin = 150;
 let vocalRose = 150;
 
-let elegirGanador = prompt("Elegi entre Jimin y Rose quien crees que gane");
+function saludar() {
+    console.log("Programa I-LAND");
+}
+saludar();
+
+
+function nombre() {
+    let ingresarNombre = prompt("Ingresar nombre");
+    console.log("Bienvenid@ " + ingresarNombre);
+}
+nombre();
+
+
+function competir(playerUno = "Jimin", playerDos = "Rose") {
+    console.log(playerUno + " compite con " + playerDos);
+}
+competir();
+
 
 let land = 0;
 
