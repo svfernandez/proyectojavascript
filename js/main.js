@@ -1,30 +1,6 @@
 //alert();
 
 // programa de supervivencia I LAND
-function Participante(n, g, l) {
-    this.nombre = n;
-    this.grupo = g;
-    this.special = l;
-    this.line = function () {
-        console.log(this.nombre + " se especializa en " + this.special);
-    };
-};
-
-let Jimin = new Participante( "Jimin", "BTS", "BAILE");
-console.log(Jimin);
-console.log(typeof Jimin);
-
-let Rose = new Participante( "Rose", "BLACKPINK", "VOCAL");
-console.log(Rose);
-console.log(typeof Rose);
-
-Rose.line();
-Jimin.line();
-
-
-let vocalJimin = 100;
-let vocalRose = 100;
-
 function saludar() {
     console.log("Programa I-LAND");
 }
@@ -37,11 +13,59 @@ function nombre() {
 }
 nombre();
 
+const competidores = [
+    { nombre: "Jennie", puntaje: 40 },
+    { nombre: "Jimin", puntaje: 25 },
+    { nombre: "Rose", puntaje: 25 },
+    { nombre: "Lisa", puntaje: 40 },
+    { nombre: "Namjoon", puntaje: 35 },
+    { nombre: "Jungkook", puntaje: 55 },
+];
 
-function competir(playerUno = "Jimin", playerDos = "Rose") {
-    console.log(playerUno + " compite con " + playerDos);
+competidores.sort((a, b) => a.puntaje - b.puntaje);
+console.log(competidores);
+
+
+
+function Participante(n, g, l) {
+    this.nombre = n;
+    this.grupo = g;
+    this.special = l;
+    this.line = function () {
+        console.log(this.nombre + " se especializa en " + this.special);
+    };
+};
+
+let Jimin = new Participante("Jimin", "BTS", "BAILE");
+console.log(Jimin);
+
+let Rose = new Participante("Rose", "BLACKPINK", "VOCAL");
+console.log(Rose);
+
+Rose.line();
+Jimin.line();
+
+
+let vocalJimin = 100;
+let vocalRose = 100;
+
+
+
+function quienesCompiten(nombres) {
+    return function () {
+        console.log("¡Hola, hoy compiten " + nombres + "!");
+    };
 }
-competir();
+
+let clasificacion = quienesCompiten("Jimin y Rose");
+clasificacion();
+
+let versus = ["Jimin", "VS", "Rose"];
+function mostrarVersus(vs) {
+    console.log(vs);
+}
+
+versus.forEach(mostrarVersus);
 
 
 let land = 0;
