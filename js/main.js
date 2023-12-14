@@ -1,9 +1,29 @@
 //alert();
 
 // programa de supervivencia I LAND
+function Participante(n, g, l) {
+    this.nombre = n;
+    this.grupo = g;
+    this.special = l;
+    this.line = function () {
+        console.log(this.nombre + " se especializa en " + this.special);
+    };
+};
 
-let vocalJimin = 150;
-let vocalRose = 150;
+let Jimin = new Participante( "Jimin", "BTS", "BAILE");
+console.log(Jimin);
+console.log(typeof Jimin);
+
+let Rose = new Participante( "Rose", "BLACKPINK", "VOCAL");
+console.log(Rose);
+console.log(typeof Rose);
+
+Rose.line();
+Jimin.line();
+
+
+let vocalJimin = 100;
+let vocalRose = 100;
 
 function saludar() {
     console.log("Programa I-LAND");
@@ -58,4 +78,3 @@ if (vocalRose > 0) {
 } else {
     console.log("Gano el DESAENG Jimin");
 }
-
