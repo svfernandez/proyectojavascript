@@ -1,104 +1,94 @@
 //alert();
 
-// programa de supervivencia I LAND
-function saludar() {
-    console.log("Programa I-LAND");
-}
-saludar();
 
+let articulosCarrito = [];
+const contenedorCarrito = document.querySelector("#lista-carrito tbody");
+const listaProductos = document.querySelector("#lista-productos");
+const vaciarCarrito = document.querySelector("#vaciar-carrito");
+const carrito = document.querySelector("#carrito");
 
-function nombre() {
-    let ingresarNombre = prompt("Ingresar nombre");
-    console.log("Bienvenid@ " + ingresarNombre);
-}
-nombre();
-
-const competidores = [
-    { nombre: "Jennie", puntaje: 40 },
-    { nombre: "Jimin", puntaje: 25 },
-    { nombre: "Rose", puntaje: 25 },
-    { nombre: "Lisa", puntaje: 40 },
-    { nombre: "Namjoon", puntaje: 35 },
-    { nombre: "Jungkook", puntaje: 55 },
-];
-
-competidores.sort((a, b) => a.puntaje - b.puntaje);
-console.log(competidores);
-
-
-
-function Participante(n, g, l) {
-    this.nombre = n;
-    this.grupo = g;
-    this.special = l;
-    this.line = function () {
-        console.log(this.nombre + " se especializa en " + this.special);
-    };
-};
-
-let Jimin = new Participante("Jimin", "BTS", "BAILE");
-console.log(Jimin);
-
-let Rose = new Participante("Rose", "BLACKPINK", "VOCAL");
-console.log(Rose);
-
-Rose.line();
-Jimin.line();
-
-
-let vocalJimin = 100;
-let vocalRose = 100;
-
-
-
-function quienesCompiten(nombres) {
-    return function () {
-        console.log("¡Hola, hoy compiten " + nombres + "!");
-    };
-}
-
-let clasificacion = quienesCompiten("Jimin y Rose");
-clasificacion();
-
-let versus = ["Jimin", "VS", "Rose"];
-function mostrarVersus(vs) {
-    console.log(vs);
-}
-
-versus.forEach(mostrarVersus);
-
-
-let land = 0;
-
-const MIN_CANTO = 10;
-const MAX_CANTO = 30;
-
-while (vocalJimin > 0 && vocalRose > 0) {
-    land += 1;
-    let notaJimin = Math.ceil(Math.random() * (MAX_CANTO - MIN_CANTO) + MIN_CANTO);
-    let notaRose = Math.ceil(Math.random() * (MAX_CANTO - MIN_CANTO) + MIN_CANTO);
-    console.log("--land " + land + "--");
-    if (notaJimin === notaRose) {
-        console.log("siga");
-    } else if (notaJimin > notaRose) {
-        console.log("Jimin alcanzo una nota de" + " " + notaJimin);
-        vocalRose = vocalRose - notaJimin;
-        if (vocalRose < 0) {
-            vocalRose = 0;
-        }
-        console.log("El puntaje de Rose baja a" + " " + vocalRose);
-    } else {
-        console.log("Rose alcanza una nota de" + " " + notaRose);
-        vocalJimin = vocalJimin - notaRose;
-        if (vocalJimin < 0) {
-            vocalJimin = 0;
-        }
-        console.log("el puntaje de Jimin baja a" + " " + vocalJimin);
+//funciones
+function agregarProducto(evt) {
+    evt.preventDefault();
+    if (evt.target.classList.contains("agregar-carrito")) {
+        const producto = evt.target.parentElement.parentElement;
+        leerDatosProducto(producto);
     }
 }
 
-if (vocalRose > 0) {
-    console.log("Gano el DESAENG Rose");
-} else {
-    console.log("Gano el DESAENG Jimin");
+function leerDatosProducto(item) {
+
+    console.log(item.querySelector("a").getAttribute("data-id"));
+    const inforProducto = {
+        imagen: item.querySelector("img").src,
+        titulo: item.querySelector("h4").textContent,
+        precio: item.querySelector(".precio span").textContent,
+        id: item.querySelector("a").getAttribute("data-id"),
+        cantidad: 1,
+    };
+
+    if (articulosCarrito.some((prod) => prod.id === inforProducto.id)) {
+        const productos = articulosCarrito.map((producto) => {
+            if (producto.id === inforProducto.id) {
+                let cantidad = parseInt(producto.cantidad);
+                cantidad += 1;
+                producto.cantidad = cantidad;
+                return producto;
+            } else {
+                return producto;
+            }
+        });
+        articulosCarrito = [...productos];
+    } else {
+        articulosCarrito = [...articulosCarrito, inforProducto];
+    }
+    console.log(articulosCarrito);
+
+    dibujarCarritoHTML();
 }
+
+function dibujarCarritoHTML() {
+    limpiarCarrito();
+    articulosCarrito.forEach((producto) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+        <td><img src="${producto.imagen}" width="100" /></td>
+        <td>${producto.titulo}</td>
+        <td>${producto.precio}</td>
+        <td>${producto.cantidad}</td>
+        <td><a href="#" class="borrar-producto" data-id="${producto.id}">BORRAR</a></td>
+        `;
+        contenedorCarrito.appendChild(fila);
+    });
+    sincronizarStorage();
+}
+
+function limpiarCarrito() {
+    while (contenedorCarrito.firstChild) {
+        contenedorCarrito.removeChild(contenedorCarrito.firstChild);
+    }
+}
+
+function eliminarProducto(evt) {
+    evt.preventDefault();
+    if (evt.target.classList.contains("borrar-producto")) {
+        const producto = evt.target.parentElement.parentElement;
+        const productoId = producto.querySelector("a").getAttribute("data-id");
+        articulosCarrito = articulosCarrito.filter(
+            (producto) => producto.id !== productoId
+        );
+        dibujarCarritoHTML();
+    }
+}
+
+function sincronizarStorage() {
+    localStorage.setItem("carrito", JSON.stringify(articulosCarrito));
+}
+
+listaProductos.addEventListener("click", agregarProducto);
+vaciarCarrito.addEventListener("click", limpiarCarrito);
+carrito.addEventListener("click", eliminarProducto);
+window.addEventListener("DOMContentLoaded", () => {
+    articulosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    dibujarCarritoHTML();
+});
