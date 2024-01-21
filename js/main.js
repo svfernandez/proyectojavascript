@@ -19,6 +19,9 @@ Swal.fire({
     `
 });
 
+function mostrar(){
+    document.getElementById('seleccionable').innerHTML = Date()
+}
 
 document.getElementById('botonBusqueda').addEventListener('click', () => {
     const ciudad = document.getElementById('ciudadEntrada').value
