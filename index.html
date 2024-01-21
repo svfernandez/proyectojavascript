@@ -3,139 +3,60 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PANDRAMA</title>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="./styles/main.css">
-
     <script src="./js/main.js" defer></script>
+
+    <title>App CLIMA</title>
 </head>
 
 <body>
-
-    <header id="header" class="header">
-        <div class="container">
-            <div class="row">
-
-                <div class="four columns">
-                    <img class="logo" src="./img/panda.svg" alt="logo de la tienda">
-                </div>
-
-                <div class="two columns">
-                    <ul>
-                        <li class="submenu">
-                            <img src="./img/cart.svg" width="40" id="img-carrito">
-
-                            <div id="carrito">
-                                <table id="lista-carrito" class="u-full-width">
-                                    <thead>
-                                        <tr>
-                                            <th>Imagen</th>
-                                            <th>Nombre</th>
-                                            <th>Precio</th>
-                                            <th>Cantidad</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                                <a href="#" id="vaciar-carrito" class="buttom u-full-width">Vaciar Carrito</a>
-                            </div>
+    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div data-aos="fade-right" class="container-fluid">
+                <a class="navbar-brand" href="./index.html"> <img src="./assets/globe.svg" alt="planeta tierra"></a>
+                <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 menu-ul">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./index.html">APLICACION DEL CLIMA</a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </nav>
     </header>
-
-    <div id="lista-productos" class="container">
-        <h1 id="encabezado" class="encabezado">Pandrama Store</h1>
-        <div class="row">
-            <div class="four columns">
-                <div class="card">
-                    <img src="./img/enhypen.png" class="asset imagen-producto u-full-width">
-                    <div class="info-card">
-                        <h4>LIGHTSTICK DE ENHYPEN</h4>
-                        <p>HYBE LABELS</p>
-
-                        <p class="precio">$225.000 <span class="u-pull-right ">$200.000</span></p>
-                        <a href="#" class="u-full-width buttom input agregar-carrito" data-id="1">Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-            <div class="four columns">
-                <div class="card">
-                    <img src="./img/lesserafim.png" class="asset imagen-producto u-full-width">
-                    <div class="info-card">
-                        <h4>LIGHTSTICK DE LESSERAFIM</h4>
-                        <p>HYBE LABELS</p>
-
-                        <p class="precio">$275.000 <span class="u-pull-right ">$250.000</span></p>
-                        <a href="#" class="u-full-width buttom input agregar-carrito" data-id="2">Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-            <div class="four columns">
-                <div class="card">
-                    <img src="./img/sf-nueve.png" class="asset imagen-producto u-full-width">
-                    <div class="info-card">
-                        <h4>LIGHTSTICK DE SF9</h4>
-                        <p>FNC ENTRETAINMENT</p>
-
-                        <p class="precio">$198.000 <span class="u-pull-right ">$165.000</span></p>
-                        <a href="#" class="u-full-width buttom input agregar-carrito" data-id="3">Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-
+    <main>
+        <div class="contenedor">
+            <h1>Aplicación de Clima</h1>
+            <input type="text" id="ciudadEntrada" placeholder="Ingrese una ciudad">
+            <button id="botonBusqueda">Buscar</button>
+            <div id="datosClima"></div>
         </div>
-        <div class="row">
-            <div class="four columns">
-                <div class="card">
-                    <img src="./img/astro.jpeg" class="asset imagen-producto u-full-width">
-                    <div class="info-card">
-                        <h4>LIGHTSTICK DE ASTRO</h4>
-                        <p>Fantagio ENTRETAINMENT</p>
-
-                        <p class="precio">$200.000 <span class="u-pull-right ">$180.000</span></p>
-                        <a href="#" class="u-full-width buttom input agregar-carrito" data-id="4">Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-            <div class="four columns">
-                <div class="card">
-                    <img src="./img/bigbang.jpg" class="asset imagen-producto u-full-width">
-                    <div class="info-card">
-                        <h4>LIGHTSTICK DE BIGBANG</h4>
-                        <p>YG ENTRETAINMENT</p>
-
-                        <p class="precio">$315.000 <span class="u-pull-right ">$300.000</span></p>
-                        <a href="#" class="u-full-width buttom input agregar-carrito" data-id="5">Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-            <div class="four columns">
-                <div class="card">
-                    <img src="./img/cl-blackjack.jpeg" class="asset imagen-producto u-full-width">
-                    <div class="info-card">
-                        <h4>LIGHTSTICK DE 2NE1</h4>
-                        <p>YG ENTRETAINMENT</p>
-
-                        <p class="precio">$307.000 <span class="u-pull-right ">$295.000</span></p>
-                        <a href="#" class="u-full-width buttom input agregar-carrito" data-id="6">Agregar
-                            al carrito</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    </main>
+    <footer class="footer mt-5">
+        <section data-aos="fade-right" class="privacidad mt-3">
+            <p class="copyright text-center">Serena Fernández © 2024</p>
+            <a class="icon-link mt-1" href="#">
+                <svg class="bi" aria-hidden="true">
+                    <use xlink:href="#box-seam"></use>
+                </svg>
+                <p>Políticas de seguridad y privacidad</p>
+            </a>
+        </section>
+    </footer>
+    <!-- librerias -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>

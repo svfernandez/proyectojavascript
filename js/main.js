@@ -1,94 +1,67 @@
 //alert();
 
+let urlBase = 'https://api.openweathermap.org/data/2.5/weather'
+let api_key = '656ac9163610f19ae86640f28ac012e2'
+let difKelvin = 273.15
 
-let articulosCarrito = [];
-const contenedorCarrito = document.querySelector("#lista-carrito tbody");
-const listaProductos = document.querySelector("#lista-productos");
-const vaciarCarrito = document.querySelector("#vaciar-carrito");
-const carrito = document.querySelector("#carrito");
-
-//funciones
-function agregarProducto(evt) {
-    evt.preventDefault();
-    if (evt.target.classList.contains("agregar-carrito")) {
-        const producto = evt.target.parentElement.parentElement;
-        leerDatosProducto(producto);
-    }
-}
-
-function leerDatosProducto(item) {
-
-    console.log(item.querySelector("a").getAttribute("data-id"));
-    const inforProducto = {
-        imagen: item.querySelector("img").src,
-        titulo: item.querySelector("h4").textContent,
-        precio: item.querySelector(".precio span").textContent,
-        id: item.querySelector("a").getAttribute("data-id"),
-        cantidad: 1,
-    };
-
-    if (articulosCarrito.some((prod) => prod.id === inforProducto.id)) {
-        const productos = articulosCarrito.map((producto) => {
-            if (producto.id === inforProducto.id) {
-                let cantidad = parseInt(producto.cantidad);
-                cantidad += 1;
-                producto.cantidad = cantidad;
-                return producto;
-            } else {
-                return producto;
-            }
-        });
-        articulosCarrito = [...productos];
-    } else {
-        articulosCarrito = [...articulosCarrito, inforProducto];
-    }
-    console.log(articulosCarrito);
-
-    dibujarCarritoHTML();
-}
-
-function dibujarCarritoHTML() {
-    limpiarCarrito();
-    articulosCarrito.forEach((producto) => {
-        const fila = document.createElement("tr");
-        fila.innerHTML = `
-        <td><img src="${producto.imagen}" width="100" /></td>
-        <td>${producto.titulo}</td>
-        <td>${producto.precio}</td>
-        <td>${producto.cantidad}</td>
-        <td><a href="#" class="borrar-producto" data-id="${producto.id}">BORRAR</a></td>
-        `;
-        contenedorCarrito.appendChild(fila);
-    });
-    sincronizarStorage();
-}
-
-function limpiarCarrito() {
-    while (contenedorCarrito.firstChild) {
-        contenedorCarrito.removeChild(contenedorCarrito.firstChild);
-    }
-}
-
-function eliminarProducto(evt) {
-    evt.preventDefault();
-    if (evt.target.classList.contains("borrar-producto")) {
-        const producto = evt.target.parentElement.parentElement;
-        const productoId = producto.querySelector("a").getAttribute("data-id");
-        articulosCarrito = articulosCarrito.filter(
-            (producto) => producto.id !== productoId
-        );
-        dibujarCarritoHTML();
-    }
-}
-
-function sincronizarStorage() {
-    localStorage.setItem("carrito", JSON.stringify(articulosCarrito));
-}
-
-listaProductos.addEventListener("click", agregarProducto);
-vaciarCarrito.addEventListener("click", limpiarCarrito);
-carrito.addEventListener("click", eliminarProducto);
-window.addEventListener("DOMContentLoaded", () => {
-    articulosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    dibujarCarritoHTML();
+Swal.fire({
+    title: "¡Bienvenid@!",
+    text: "¿Estás a punto de viajar y querés saber como te va a recibir el clima en tiempo real? <3",
+    width: 600,
+    padding: "3em",
+    color: "#716add",
+    background: "#fff url(/images/trees.png)",
+    backdrop: `
+    rgba(0,0,123,0.4)
+    url("/images/nyan-cat.gif")
+    left top
+    no-repeat
+    `
 });
+
+
+document.getElementById('botonBusqueda').addEventListener('click', () => {
+    const ciudad = document.getElementById('ciudadEntrada').value
+    if (ciudad) {
+        fetchDatosClima(ciudad)
+    }
+})
+
+function fetchDatosClima(ciudad) {
+    fetch(`${urlBase}?q=${ciudad}&appid=${api_key}`)
+        .then(data => data.json())
+        .then(data => mostrarDatosClima(data))
+}
+
+function mostrarDatosClima(data) {
+    const divDatosClima = document.getElementById('datosClima')
+    divDatosClima.innerHTML = ''
+
+    const ciudadNombre = data.name
+    const paisNombre = data.sys.country
+    const temperatura = data.main.temp
+    const humedad = data.main.humidity
+    const descripcion = data.weather[0].description
+    const icono = data.weather[0].icon
+
+    const ciudadTitulo = document.createElement('h2')
+    ciudadTitulo.textContent = `${ciudadNombre}, ${paisNombre}`
+
+    const temperaturaInfo = document.createElement('p')
+    temperaturaInfo.textContent = `La temperatura es: ${Math.floor(temperatura - difKelvin)}ºC`
+
+    const humedadInfo = document.createElement('p')
+    humedadInfo.textContent = `La humedad es: ${humedad}%`
+
+    const iconoInfo = document.createElement('img')
+    iconoInfo.src = `https://openweathermap.org/img/wn/${icono}@2x.png`
+
+    const descripcionInfo = document.createElement('p')
+    descripcionInfo.textContent = `La descripción meteorológica es: ${descripcion}`
+
+    divDatosClima.appendChild(ciudadTitulo)
+    divDatosClima.appendChild(temperaturaInfo)
+    divDatosClima.appendChild(humedadInfo)
+    divDatosClima.appendChild(iconoInfo)
+    divDatosClima.appendChild(descripcionInfo)
+}
